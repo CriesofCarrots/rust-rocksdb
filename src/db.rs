@@ -688,6 +688,7 @@ impl DB {
         if let Some(cf) = self.cfs.write().unwrap().remove(name) {
             unsafe {
                 ffi_try!(ffi::rocksdb_drop_column_family(self.inner, cf.inner));
+                ffi::rocksdb_column_family_handle_destroy(cf.inner);
             }
             Ok(())
         } else {
