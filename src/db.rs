@@ -799,6 +799,7 @@ impl DB {
             if let Some(cf) = cf_map.remove(name) {
                 unsafe {
                     ffi_try!(ffi::rocksdb_drop_column_family(inner, cf.inner));
+                    ffi::rocksdb_column_family_handle_destroy(cf.inner);
                 }
                 Ok(())
             } else {
